@@ -1,5 +1,6 @@
 import { ITodo } from "../types/todo";
 import useLocalStorage from "./useLocalStorage";
+import React from "react";
 
 export function useTodos(initialTodos: ITodo[]) {
   const [todos, setTodos] = useLocalStorage<ITodo[]>("todos", initialTodos);
@@ -13,37 +14,46 @@ export function useTodos(initialTodos: ITodo[]) {
     setTodos((prevState) => [...prevState, newTodo]);
   };
 
-  const toggleTodo = (id: number): void => {
-    setTodos((prevState) =>
-      prevState.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            completed: !todo.completed,
-          };
-        }
-        return todo;
-      })
-    );
-  };
-
-  const editTodo = (id: number, name: string): void => {
-    setTodos((prevState) => {
-      return prevState.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            name,
-          };
-        }
-        return todo;
+  const toggleTodo = React.useCallback(
+    (id: number): void => {
+      setTodos((prevState) => {
+        return prevState.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              completed: !todo.completed,
+            };
+          }
+          return todo;
+        });
       });
-    });
-  };
+    },
+    [setTodos]
+  );
 
-  const removeTodo = (id: number): void => {
-    setTodos((prevState) => prevState.filter((todo) => todo.id !== id));
-  };
+  const editTodo = React.useCallback(
+    (id: number, name: string): void => {
+      setTodos((prevState) => {
+        return prevState.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              name,
+            };
+          }
+          return todo;
+        });
+      });
+    },
+    [setTodos]
+  );
+
+  const removeTodo = React.useCallback(
+    (id: number): void => {
+      setTodos((prevState) => prevState.filter((todo) => todo.id !== id));
+    },
+    [setTodos]
+  );
 
   const getItemsLeft = () => {
     return todos.reduce((counter, todo) => {
