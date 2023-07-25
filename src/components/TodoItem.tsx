@@ -1,5 +1,5 @@
 import { Button, Checkbox } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useState, memo } from "react";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -13,7 +13,7 @@ interface ITodoItemProps extends ITodo {
   removeTodo: (id: number) => void;
 }
 
-export const TodoItem: FC<ITodoItemProps> = (props) => {
+export const TodoItem: FC<ITodoItemProps> = memo(function TodoItem(props) {
   const { id, name, completed, toggleTodo, editTodo, removeTodo } = props;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -72,7 +72,7 @@ export const TodoItem: FC<ITodoItemProps> = (props) => {
       </DeleteButton>
     </TodoItemWrapper>
   );
-};
+});
 
 const UncheckedIcon = styled(RadioButtonUncheckedOutlinedIcon)`
   color: ${(props) => props.theme.colors.primary};
