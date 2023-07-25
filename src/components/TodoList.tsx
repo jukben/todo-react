@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { FC, useEffect, useMemo, useRef, useState } from "react";
-import { Filter, ITodo, absurd } from "../types/todo";
+import { Filter, ITodo } from "../types/todo";
 
 import { Container } from "@mui/material";
 import { TodoItem } from "./TodoItem";
@@ -52,10 +52,8 @@ export const TodoList: FC = () => {
             return !todo.completed;
           case Filter.completed:
             return todo.completed;
-          case Filter.all:
-            return true;
           default:
-            return absurd(filter);
+            return true;
         }
       }),
     [todos, filter]

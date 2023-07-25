@@ -1,6 +1,8 @@
 export enum ThemeEnum {
   light = "light",
   dark = "dark",
+
+  barbie = "barbie",
 }
 
 export interface ITheme {

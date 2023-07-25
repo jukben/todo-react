@@ -21,6 +21,21 @@ export const baseTheme: ITheme = {
   },
 };
 
+export const barbieTheme: DefaultTheme = {
+  ...baseTheme,
+  type: ThemeEnum.barbie,
+
+  colors: {
+    ...baseTheme.colors,
+    primary: "#FFAFCC",
+    secondary: "#FCE4EC",
+    success: "#FF9B94",
+    danger: "#FFA07A",
+    bg: "#FFC0CB",
+    font: "#6E5773",
+  },
+};
+
 export const lightTheme: DefaultTheme = {
   ...baseTheme,
   type: ThemeEnum.light,

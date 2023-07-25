@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 function useLocalStorage<T>(
   key: string,
@@ -14,18 +14,15 @@ function useLocalStorage<T>(
     }
   });
 
-  function setValue(value: SetStateAction<T>): void {
+  useEffect(() => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [key, storedValue]);
 
-  return [storedValue, setValue];
+  return [storedValue, setStoredValue];
 }
 
 export default useLocalStorage;

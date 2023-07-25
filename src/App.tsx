@@ -1,33 +1,63 @@
 import { DefaultTheme, ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "./styles/theme";
+import Sparkle from "react-sparkle";
+import { lightTheme, barbieTheme } from "./styles/theme";
 
-import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { ThemeEnum } from "./types/styled";
+import WomanIcon from "@mui/icons-material/Woman";
 import { FC } from "react";
 import GlobalStyles from "../src/styles/global";
 import { TodoList } from "./components/TodoList";
 import styled from "styled-components";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { Box } from "@mui/material";
 
 const App: FC = () => {
   const [theme, setTheme] = useLocalStorage<DefaultTheme>("theme", lightTheme);
 
   const themeToggle = () => {
-    const newTheme = theme === lightTheme ? darkTheme : lightTheme;
+    const newTheme = theme.type === ThemeEnum.barbie ? lightTheme : barbieTheme;
+
     setTheme(newTheme);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Header>📓 Todo List</Header>
+      <Box
+        sx={{
+          position: "relative",
+          display: "inline-block",
+          left: "50%",
+          top: "50%",
+          transform: "translateX(-50%)",
+          margin: "140px 0 40px 0",
+          padding: "10px 0 10px 0",
+        }}
+      >
+        {theme.type === "barbie" ? (
+          <Sparkle color="purple" flickerSpeed="slower" fadeOutSpeed={20} />
+        ) : null}
+        <Header>
+          {theme.type === "barbie" ? "Pink-tastic Task List" : "Todo List"}
+        </Header>
+      </Box>
       <TodoList />
       <Footer>
         Double click on todo to edit <br />
-        <a target="_blank" href="https://www.maxim-grinev-resume.ru/">
+        Orginally{" "}
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.maxim-grinev-resume.ru/"
+        >
           © Maxim Grinev
+        </a>
+        , modified for ReactGirls{" "}
+        <a target="_blank" rel="noreferrer" href="https://jukben.codes">
+          © jukben
         </a>
       </Footer>
       <ThemeToggle onClick={themeToggle}>
-        <DarkModeIcon fontSize="medium" />
+        <WomanIcon fontSize="medium" />
       </ThemeToggle>
       <GlobalStyles />
     </ThemeProvider>
@@ -44,7 +74,6 @@ export const AppContainer = styled.div`
 export const Header = styled.h1`
   text-align: center;
   font-size: 48px;
-  padding: 50px 0 50px 0;
 `;
 
 export const Footer = styled.h6`
@@ -61,7 +90,7 @@ export const ThemeToggle = styled.button`
   background: none;
   border: none;
   font-size: 24px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.colors.font};
   cursor: pointer;
   position: absolute;
   top: 20px;
