@@ -14,22 +14,19 @@ export function useTodos(initialTodos: ITodo[]) {
     setTodos((prevState) => [...prevState, newTodo]);
   };
 
-  const toggleTodo = React.useCallback(
-    (id: number): void => {
-      setTodos((prevState) => {
-        return prevState.map((todo) => {
-          if (todo.id === id) {
-            return {
-              ...todo,
-              completed: !todo.completed,
-            };
-          }
-          return todo;
-        });
+  const toggleTodo = (id: number): void => {
+    setTodos((prevState) => {
+      return prevState.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+        return todo;
       });
-    },
-    [setTodos]
-  );
+    });
+  };
 
   const editTodo = React.useCallback(
     (id: number, name: string): void => {
